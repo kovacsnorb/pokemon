@@ -25,6 +25,11 @@ namespace PokemonWebapp.Controllers
         public IActionResult LoginHandler(HuntViewModel huntViewModelFromForm)
         {
             huntViewModel.User.Name = huntViewModelFromForm.User.Name;
+
+            if (huntViewModel.User.Pokemons.Count != 0)
+            {
+                huntViewModel.User.Pokemons.RemoveRange(0, huntViewModel.User.Pokemons.Count);
+            }
             huntViewModel.User.Pokemons.Add(new Pokemon() { Id = huntViewModel.User.Pokemons.Count + 1, Level = random.Next(1, 6), Type = (PokemonType)random.Next(1, 22) });
             return LocalRedirect("/user/" + huntViewModel.User.ReplaceAscii());
         }
