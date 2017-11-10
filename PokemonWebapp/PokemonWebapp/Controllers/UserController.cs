@@ -33,8 +33,11 @@ namespace PokemonWebapp.Controllers
                 huntViewModel.User.Pokemons.RemoveRange(0, huntViewModel.User.Pokemons.Count);
             }
             huntViewModel.User.Pokemons.Add(new Pokemon()
-            { PokemonId = huntViewModel.User.Pokemons.Count + 1, Level = random.Next(1, 6),
-                Type = (PokemonType)random.Next(1, 22) });
+            {
+                PokemonId = huntViewModel.User.Pokemons.Count + 1,
+                Level = random.Next(1, 6),
+                Type = (PokemonType)random.Next(1, 22)
+            });
             return LocalRedirect("/user/" + huntViewModel.User.ReplaceAscii());
         }
 
@@ -75,6 +78,23 @@ namespace PokemonWebapp.Controllers
             huntViewModel.User.Pokemons.RemoveAll(m => m.PokemonId == pokemonFromForm.PokemonId);
             FightRepository.AddFight(fightFromForm);
             return LocalRedirect("/user/" + huntViewModel.User.ReplaceAscii());
+        }
+
+        [HttpGet]
+        [Route("/statistics/{name}")]
+        public IActionResult Statistics([FromRoute] string Name)
+        {
+            string name = Name;
+            var Fights = FightRepository.GetUserFights(name);
+            return View(Fights);
+        }
+
+        [HttpGet]
+        [Route("/statistics/all")]
+        public IActionResult Statistics()
+        {
+            var Fights = FightRepository.GetAllFights();
+            return View(Fights);
         }
     }
 }

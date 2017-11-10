@@ -1,0 +1,73 @@
+﻿@model List<PokemonWebapp.Models.Fight>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hunt Page</title>
+    <link rel="stylesheet" type="text/css" href="~/Css/StyleSheet.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lakki+Reddy|Special+Elite" rel="stylesheet">
+</head>
+<body>
+    <h2>Fight history</h2>
+
+    <table border="1">
+        @{
+            <tr>
+                <td>
+                    Player's name
+                </td>
+                <td>
+                    Player's Pokémon
+                </td>
+                <td>
+                    Player's point
+                </td>
+                <td>
+                    Computer's Pokémon
+                </td>
+                <td>
+                    Computer's point
+                </td>
+                <td>
+                    Who won?
+                </td>
+            </tr>
+
+            foreach (var fight in Model)
+            {
+                string result;
+                if (fight.PlayerFightPoint > fight.ComputerFightPoint)
+                {
+                    result = fight.Player;
+                }
+                else
+                {
+                    result = "Computer";
+                }
+                <tr>
+                    <td>
+                        @fight.Player
+                    </td>
+                    <td>
+                        <img src="~/Images/@(fight.PlayerPokemon).png" height="40" />
+                        @fight.PlayerPokemon
+                    </td>
+                    <td>
+                        @fight.PlayerFightPoint
+                    </td>
+                    <td>
+                        <img src="~/Images/@(fight.ComputerPokemon).png" height="40" />
+                        @fight.ComputerPokemon
+                    </td>
+                    <td>
+                        @fight.ComputerFightPoint
+                    </td>
+                    <td>
+                        @result
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+
+</body>
+</html>

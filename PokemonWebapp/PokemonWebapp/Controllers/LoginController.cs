@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PokemonWebapp.ViewModels.HuntViewModel;
 
 namespace PokemonWebapp.Controllers
 {
@@ -6,9 +7,9 @@ namespace PokemonWebapp.Controllers
     public class LoginController : Controller
     {
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(HuntViewModel huntViewModelFromForm)
         {
-            return View();
+            return View(huntViewModelFromForm);
         }
     }
 }

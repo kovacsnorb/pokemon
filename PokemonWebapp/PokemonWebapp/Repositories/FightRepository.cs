@@ -21,5 +21,15 @@ namespace PokemonWebapp.Repositories
             FightContext.Fights.Add(myFight);
             FightContext.SaveChanges();
         }
+
+        public List<Fight> GetAllFights()
+        {
+            return FightContext.Fights.Where(t => t.Player.Length != 0).ToList();
+        }
+
+        public List<Fight> GetUserFights(string name)
+        {
+            return FightContext.Fights.Where(t => t.Player == name).ToList();
+        }
     }
 }
