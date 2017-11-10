@@ -6,34 +6,34 @@
     <link href="https://fonts.googleapis.com/css?family=Lakki+Reddy|Special+Elite" rel="stylesheet">
 </head>
 <body>
-    <h2>@Model.User.Name's Pokémons:</h2>
+    <h2 align="center" valign="middle">@Model.User.Name's Pokémons:</h2>
 
     @{
         if (Model.User.Pokemons.Count > 0)
         {
-            <h3>
+            <h3 align="center" valign="middle">
                 <a href="/user/hunt" style="font-size: 30px">Let's go hunting!</a>
             </h3>
         }
         else
         {
-            <h3>
+            <h3 align="center" valign="middle">
                 <a href="/" style="font-size: 30px">Let's start it again!</a>
             </h3>
         }
     }
 
-    <h3>
+    <h3 align="center" valign="middle">
         <a href="/statistics/@Model.User.Name" style="font-size: 20px">@(Model.User.Name)'s fight history</a>
     </h3>
 
-    <h3>
+    <h3 align="center" valign="middle">
         <a href="/statistics/all" style="font-size: 20px">Fight history for all players</a>
     </h3>
 
     <div>
-        <table border="1">
-            <tr>
+        <table border="1" align="center" valign="middle">
+            <tr align="center" valign="middle">
                 <th width="40">
                     No.
                 </th>
@@ -49,7 +49,7 @@
             </tr>
             @{foreach (var pokemon in Model.User.Pokemons)
                 {
-                    <tr>
+                    <tr align="center" valign="middle">
                         <th width="40">
                             @pokemon.PokemonId
                         </th>
@@ -72,7 +72,7 @@
         if (Model.User.Pokemons.Count == 0)
         {
             <br />var text = "Better luck next time!";
-            <div>
+            <div align="center" valign="middle">
                 @text <br /><br />
                 <img src="~/Images/sad_pikachu.png" height="300" />
             </div>
