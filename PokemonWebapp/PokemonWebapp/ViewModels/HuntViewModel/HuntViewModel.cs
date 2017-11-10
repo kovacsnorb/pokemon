@@ -10,5 +10,6 @@ namespace PokemonWebapp.ViewModels.HuntViewModel
     {
         public User User { get; set; } = new User();
         public Pokemon Pokemon { get; set; } = new Pokemon();
+        public Fight Fight { get; set; } = new Fight();
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <title>Hunt Page</title>
     <link rel="stylesheet" type="text/css" href="~/Css/StyleSheet.css" />
-    <link href="https://fonts.googleapis.com/css?family=Lakki+Reddy|Walter+Turncoat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lakki+Reddy|Special+Elite" rel="stylesheet">
 </head>
 <body>
     <h2>Let's hunt!</h2>
@@ -11,8 +11,10 @@
     @{
         var random = new Random();
         var pokemon = Model.User.Pokemons[random.Next(0, Model.User.Pokemons.Count)];
-        var random1 = random.Next(1, 5);
-        var random2 = random.Next(1, 5);
+        var multiplyerComputer = random.Next(1, 5);
+        var multiplyerUser = random.Next(1, 5);
+        var fightpointComputer = multiplyerComputer * Model.Pokemon.Level;
+        var fightpointPlayer = multiplyerUser * pokemon.Level;
     }
 
     <div>
@@ -78,13 +80,13 @@
                     Lucky number
                 </th>
                 <th width="350">
-                    @random1                   
+                    @multiplyerComputer                   
                 </th>
                 <th width="250">
                     
                 </th>
                 <th width="350">
-                    @random2
+                    @multiplyerUser
                 </th>
             </tr>
 
@@ -93,19 +95,13 @@
                     Fight point
                 </th>
                 <th width="350">
-                    @{ 
-                        var computerPoint = random1 * Model.Pokemon.Level;
-                    }
-                    @computerPoint
+                    @fightpointComputer
                 </th>
                 <th width="250">
 
                 </th>
                 <th width="350">
-                    @{
-                        var playerPoint = random2 * pokemon.Level;
-                    }
-                    @playerPoint
+                    @fightpointPlayer
                 </th>
             </tr>
 
@@ -117,14 +113,27 @@
                 <th width="250">
                     <br/>
                     @{
-                        if (playerPoint > computerPoint)
+                        if (fightpointPlayer > fightpointComputer)
                         {
                             <div>You <u>won</u> this fight! Congrats!</div><br />
-                            int id = @Model.User.Pokemons.Max(m => m.Id) + 1;
+                        int id = @Model.User.Pokemons.Max(m => m.PokemonId) + 1;
                             <form action="/user/catch" method="post">
-                                <input type="hidden" name="Id" value="@id" />
+                                <input type="hidden" name="PokemonId" value="@id" />
                                 <input type="hidden" name="Type" value="@Model.Pokemon.Type" />
                                 <input type="hidden" name="Level" value="@Model.Pokemon.Level" />
+
+                                <input type="hidden" name="Player" value="@Model.User.Name" />
+                                <input type="hidden" name="PlayerFightPoint" value="@fightpointPlayer" />
+                                <input type="hidden" name="PlayerPokemon" value="@pokemon.Type" />
+                                <input type="hidden" name="PlayerPokemonId" value="@pokemon.PokemonId" />
+                                <input type="hidden" name="PlayerPokemonLevel" value="@pokemon.Level" />
+                                <input type="hidden" name="PlayerPokemonLuckyNumber" value="@multiplyerUser" />
+                                <input type="hidden" name="ComputerFightPoint" value="@fightpointComputer" />
+                                <input type="hidden" name="ComputerPokemon" value="@Model.Pokemon.Type" />
+                                <input type="hidden" name="ComputerPokemonId" value="@Model.Pokemon.PokemonId" />
+                                <input type="hidden" name="ComputerPokemonLevel" value="@Model.Pokemon.Level" />
+                                <input type="hidden" name="ComputerPokemonLuckyNumber" value="@multiplyerComputer" />
+
                                 <input type="submit" value="Back to profile" style="font-size: 20px"/>
                             </form>
                         }
@@ -132,7 +141,20 @@
                         {
                             <div>You <u>lost</u> this time! Sorry.</div><br />
                             <form action="/user/remove" method="post">
-                                <input type="hidden" name="Id" value="@pokemon.Id" />
+                                <input type="hidden" name="PokemonId" value="@pokemon.PokemonId" />
+
+                                <input type="hidden" name="Player" value="@Model.User.Name" />
+                                <input type="hidden" name="PlayerFightPoint" value="@fightpointPlayer" />
+                                <input type="hidden" name="PlayerPokemon" value="@pokemon.Type" />
+                                <input type="hidden" name="PlayerPokemonId" value="@pokemon.PokemonId" />
+                                <input type="hidden" name="PlayerPokemonLevel" value="@pokemon.Level" />
+                                <input type="hidden" name="PlayerPokemonLuckyNumber" value="@multiplyerUser" />
+                                <input type="hidden" name="ComputerFightPoint" value="@fightpointComputer" />
+                                <input type="hidden" name="ComputerPokemon" value="@Model.Pokemon.Type" />
+                                <input type="hidden" name="ComputerPokemonId" value="@Model.Pokemon.PokemonId" />
+                                <input type="hidden" name="ComputerPokemonLevel" value="@Model.Pokemon.Level" />
+                                <input type="hidden" name="ComputerPokemonLuckyNumber" value="@multiplyerComputer" />
+
                                 <input type="submit" value="Back to profile" style="font-size: 20px"/>
                             </form>
                         }

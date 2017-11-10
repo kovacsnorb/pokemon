@@ -7,7 +7,7 @@ namespace PokemonWebapp.Models
 {
     public class Pokemon
     {
-        public int Id { get; set; }
+        public int PokemonId { get; set; }
         public PokemonType Type { get; set; }
         public int Level { get; set; }
     }

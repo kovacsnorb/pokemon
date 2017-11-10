@@ -5,20 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PokemonWebapp.Models;
 using PokemonWebapp.ViewModels.HuntViewModel;
+using PokemonWebapp.Repositories;
 
 namespace PokemonWebapp.Controllers
 {
     [Route("/user")]
     public class UserController : Controller
     {
-        Random random = new Random();
-        //User user;
-        HuntViewModel huntViewModel;
-     
+        FightRepository FightRepository;
 
-        public UserController(HuntViewModel huntViewModel)
+        Random random = new Random();
+        HuntViewModel huntViewModel;
+
+        public UserController(HuntViewModel huntViewModel, FightRepository fightRepository)
         {
             this.huntViewModel = huntViewModel;
+            FightRepository = fightRepository;
         }
 
         [HttpPost]
@@ -30,7 +32,9 @@ namespace PokemonWebapp.Controllers
             {
                 huntViewModel.User.Pokemons.RemoveRange(0, huntViewModel.User.Pokemons.Count);
             }
-            huntViewModel.User.Pokemons.Add(new Pokemon() { Id = huntViewModel.User.Pokemons.Count + 1, Level = random.Next(1, 6), Type = (PokemonType)random.Next(1, 22) });
+            huntViewModel.User.Pokemons.Add(new Pokemon()
+            { PokemonId = huntViewModel.User.Pokemons.Count + 1, Level = random.Next(1, 6),
+                Type = (PokemonType)random.Next(1, 22) });
             return LocalRedirect("/user/" + huntViewModel.User.ReplaceAscii());
         }
 
@@ -47,7 +51,7 @@ namespace PokemonWebapp.Controllers
         {
             var pokemon = new Pokemon()
             {
-                Id = huntViewModel.User.Pokemons.Count + 1,
+                PokemonId = huntViewModel.User.Pokemons.Count + 1,
                 Level = random.Next(1, 6),
                 Type = (PokemonType)random.Next(1, 22)
             };
@@ -57,17 +61,19 @@ namespace PokemonWebapp.Controllers
 
         [HttpPost]
         [Route("/user/catch")]
-        public IActionResult Catch(Pokemon pokemonFromForm)
+        public IActionResult Catch(Pokemon pokemonFromForm, Fight fightFromForm)
         {
             huntViewModel.User.Pokemons.Add(pokemonFromForm);
+            FightRepository.AddFight(fightFromForm);
             return LocalRedirect("/user/" + huntViewModel.User.ReplaceAscii());
         }
 
         [HttpPost]
         [Route("/user/remove")]
-        public IActionResult Remove(Pokemon pokemonFromForm)
+        public IActionResult Remove(Pokemon pokemonFromForm, Fight fightFromForm)
         {
-            huntViewModel.User.Pokemons.RemoveAll(m => m.Id == pokemonFromForm.Id);
+            huntViewModel.User.Pokemons.RemoveAll(m => m.PokemonId == pokemonFromForm.PokemonId);
+            FightRepository.AddFight(fightFromForm);
             return LocalRedirect("/user/" + huntViewModel.User.ReplaceAscii());
         }
     }
