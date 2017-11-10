@@ -12,23 +12,23 @@
         if (Model.User.Pokemons.Count > 0)
         {
             <h3>
-                <a href="/user/hunt">Let's go hunting!</a>
+                <a href="/user/hunt" style="font-size: 30px">Let's go hunting!</a>
             </h3>
         }
         else
         {
             <h3>
-                <a href="/">Let's start it again!</a>
+                <a href="/" style="font-size: 30px">Let's start it again!</a>
             </h3>
         }
     }
 
     <h3>
-        <a href="/statistics/@Model.User.Name">@(Model.User.Name)'s fight history</a>
+        <a href="/statistics/@Model.User.Name" style="font-size: 20px">@(Model.User.Name)'s fight history</a>
     </h3>
 
     <h3>
-        <a href="/statistics/all">Fight history for all players</a>
+        <a href="/statistics/all" style="font-size: 20px">Fight history for all players</a>
     </h3>
 
     <div>
